@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль - Туристический портал{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h2 class="mb-4">Профиль пользователя</h2>
+                    
+                    <div class="mb-3">
+                        <strong>Имя пользователя:</strong> {{ user.username }}
+                    </div>
+                    
+                    {% if user.first_name %}
+                    <div class="mb-3">
+                        <strong>Имя:</strong> {{ user.first_name }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if user.last_name %}
+                    <div class="mb-3">
+                        <strong>Фамилия:</strong> {{ user.last_name }}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <strong>Email:</strong> {{ user.email }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <strong>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y H:i" }}
+                    </div>
+                    
+                    <hr>
+                    
+                    <h4 class="mt-4 mb-3">Мои отзывы</h4>
+                    {% load humanize %}
+                    {% if user.username %}
+                        {% with reviews=user.username %}
+                        <p class="text-muted">Здесь будут отображаться ваши отзывы о достопримечательностях</p>
+                        {% endwith %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

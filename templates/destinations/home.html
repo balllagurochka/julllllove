@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная - Туристический портал{% endblock %}
+
+{% block content %}
+<div class="hero text-center">
+    <div class="container">
+        <h1 class="display-4">Откройте мир вместе с нами</h1>
+        <p class="lead">Лучшие туристические направления и достопримечательности</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <h2 class="mb-4">Популярные страны</h2>
+    <div class="row">
+        {% for country in countries %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if country.image %}
+                <img src="{{ country.image.url }}" class="card-img-top" alt="{{ country.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ country.name }}</h5>
+                    <p class="card-text">{{ country.description|truncatewords:20 }}</p>
+                    <a href="{% url 'country_detail' country.pk %}" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">Пока нет доступных стран</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

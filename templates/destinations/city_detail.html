@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}{{ city.name }} - Туристический портал{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'country_detail' city.country.pk %}">{{ city.country.name }}</a></li>
+            <li class="breadcrumb-item active">{{ city.name }}</li>
+        </ol>
+    </nav>
+    
+    {% if city.image %}
+    <img src="{{ city.image.url }}" class="img-fluid rounded mb-4" alt="{{ city.name }}">
+    {% endif %}
+    
+    <h1>{{ city.name }}</h1>
+    {% if city.population %}<p class="text-muted">Население: {{ city.population|intcomma }}</p>{% endif %}
+    <p class="lead">{{ city.description }}</p>
+    
+    <h3 class="mt-5">Достопримечательности</h3>
+    <div class="row">
+        {% for attraction in city.attractions.all %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if attraction.image %}
+                <img src="{{ attraction.image.url }}" class="card-img-top" alt="{{ attraction.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ attraction.name }}</h5>
+                    <p class="card-text">{{ attraction.description|truncatewords:15 }}</p>
+                    <p><strong>Рейтинг:</strong> ⭐ {{ attraction.rating }}</p>
+                    <a href="{% url 'attraction_detail' attraction.pk %}" class="btn btn-sm btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">Достопримечательности пока не добавлены</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
